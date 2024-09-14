@@ -12,15 +12,17 @@ import { CalendarDate, today, getLocalTimeZone } from '@internationalized/date';
 
 type CalendarProps = {
   onChange: (date: Date) => void;
+  isDisabled?: boolean;
 };
 
-export const Calendar = ({ onChange }: CalendarProps) => {
+export const Calendar = ({ onChange, isDisabled }: CalendarProps) => {
   return (
     <Box
       as={ReactCalendar}
       aria-label="Data da consulta"
       minValue={today(getLocalTimeZone())}
       onChange={(evt: DateValue) => onChange(evt.toDate(getLocalTimeZone()))}
+      isDisabled={isDisabled}
       width="100%"
       maxW="400px"
       margin="auto"
@@ -32,6 +34,12 @@ export const Calendar = ({ onChange }: CalendarProps) => {
         justifyContent="space-between"
         pb="8"
         paddingInline="4"
+        sx={{
+          'button[data-disabled]': {
+            cursor: 'not-allowed',
+            opacity: 0.5,
+          },
+        }}
       >
         <Button slot="previous">
           <Icon as={ChevronLeftIcon} boxSize={6} />
