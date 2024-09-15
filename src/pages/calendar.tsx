@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { Calendar } from '../components/calendar/calendar';
 import { useEffect, useRef, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 export const CalendarPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +32,9 @@ export const CalendarPage = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Agendar consulta</title>
+      </Helmet>
       <Heading as="h1" size="lg" paddingTop="8" pb="8" textAlign="center">
         Agendar consulta
       </Heading>
