@@ -1,5 +1,12 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Box, Flex, Icon, Heading } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Icon,
+  Heading,
+  ButtonGroup,
+  IconButton,
+} from '@chakra-ui/react';
 import {
   Button,
   Calendar as ReactCalendar,
@@ -41,9 +48,6 @@ export const Calendar = ({ onChange, isDisabled }: CalendarProps) => {
           },
         }}
       >
-        <Button slot="previous">
-          <Icon as={ChevronLeftIcon} boxSize={6} />
-        </Button>
         <Heading
           as={CalendarHeading}
           size="md"
@@ -52,9 +56,20 @@ export const Calendar = ({ onChange, isDisabled }: CalendarProps) => {
             textTransform: 'uppercase',
           }}
         />
-        <Button slot="next">
-          <Icon as={ChevronRightIcon} boxSize={6} />
-        </Button>
+        <ButtonGroup size="sm" isAttached variant="outline">
+          <IconButton
+            as={Button}
+            slot="previous"
+            aria-label="Mês anterior"
+            icon={<ChevronLeftIcon boxSize={6} />}
+          />
+          <IconButton
+            as={Button}
+            slot="next"
+            aria-label="Próximo mês"
+            icon={<ChevronRightIcon boxSize={6} />}
+          />
+        </ButtonGroup>
       </Flex>
       <Box as={CalendarGrid} width="100%">
         {(date: CalendarDate) => (
