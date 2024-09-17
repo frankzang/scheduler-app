@@ -57,7 +57,7 @@ export const TimePage = () => {
       <Text textAlign="center" pb="12">
         Selecione o melhor horário para sua consulta
       </Text>
-      <Accordion defaultIndex={[0]}>
+      <Accordion>
         {availableTimes.map((time) => (
           <AccordionItem
             key={time.professionalId}
