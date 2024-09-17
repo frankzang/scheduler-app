@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router.tsx';
 import { extendTheme } from '@chakra-ui/react';
+import { ScheduleCacheProvider } from './context/schedule-cache-provider.tsx';
 
 const config = {
   initialColorMode: 'light',
@@ -15,7 +16,9 @@ const theme = extendTheme({ config });
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ChakraProvider theme={theme}>
-      <RouterProvider router={router} />
+      <ScheduleCacheProvider>
+        <RouterProvider router={router} />
+      </ScheduleCacheProvider>
     </ChakraProvider>
   </StrictMode>
 );

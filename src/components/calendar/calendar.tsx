@@ -22,14 +22,16 @@ import {
   today,
   getLocalTimeZone,
   isWeekend,
+  fromDate,
 } from '@internationalized/date';
 import { useId } from 'react';
 
 type CalendarProps = {
   onChange: (date: Date) => void;
   isDisabled?: boolean;
+  date?: Date;
 };
-export const Calendar = ({ onChange, isDisabled }: CalendarProps) => {
+export const Calendar = ({ onChange, date, isDisabled }: CalendarProps) => {
   const availableId = useId();
   const unavailableId = useId();
 
@@ -53,6 +55,7 @@ export const Calendar = ({ onChange, isDisabled }: CalendarProps) => {
       <Box
         as={ReactCalendar}
         aria-label="Data da consulta"
+        defaultValue={fromDate(date ?? new Date(), getLocalTimeZone())}
         minValue={today(getLocalTimeZone())}
         isDateUnavailable={isDateUnavailable}
         isDisabled={isDisabled}
