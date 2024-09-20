@@ -12,8 +12,20 @@ import {
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { Link as RRDLink } from 'react-router-dom';
+import { UserWithPassword } from '../model/user';
 
 export const SigninPage = () => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formValues = Object.fromEntries(formData.entries());
+    const parsedUser = UserWithPassword.safeParse(formValues);
+
+    if (parsedUser.success) {
+      console.log(parsedUser.data);
+    }
+  };
+
   return (
     <Container>
       <Helmet>
@@ -30,7 +42,9 @@ export const SigninPage = () => {
       >
         <VStack
           as="form"
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={
+            onSubmit as unknown as React.FormEventHandler<HTMLDivElement>
+          }
           spacing={4}
           align="stretch"
         >
@@ -40,27 +54,44 @@ export const SigninPage = () => {
 
           <FormControl id="firstName" isRequired>
             <FormLabel>Nome</FormLabel>
-            <Input type="text" placeholder="Digite seu nome" />
+            <Input type="text" name="firstName" placeholder="Digite seu nome" />
           </FormControl>
 
           <FormControl id="lastName" isRequired>
             <FormLabel>Sobrenome</FormLabel>
-            <Input type="text" placeholder="Digite seu sobrenome" />
+            <Input
+              type="text"
+              name="lastName"
+              placeholder="Digite seu sobrenome"
+            />
           </FormControl>
 
           <FormControl id="cpf" isRequired>
             <FormLabel>CPF</FormLabel>
-            <Input type="text" placeholder="Digite seu CPF" />
+            <Input type="text" name="cpf" placeholder="Digite seu CPF" />
           </FormControl>
 
           <FormControl id="email" isRequired>
             <FormLabel>Email</FormLabel>
-            <Input type="email" placeholder="Digite seu email" />
+            <Input type="email" name="email" placeholder="Digite seu email" />
+          </FormControl>
+
+          <FormControl id="phone" isRequired>
+            <FormLabel>Telefone</FormLabel>
+            <Input
+              type="tel"
+              name="phone"
+              placeholder="Digite seu número de telefone"
+            />
           </FormControl>
 
           <FormControl id="password" isRequired>
             <FormLabel>Senha</FormLabel>
-            <Input type="password" placeholder="Digite sua senha" />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Digite sua senha"
+            />
           </FormControl>
 
           <Button type="submit" colorScheme="blue" size="lg" width="full">
