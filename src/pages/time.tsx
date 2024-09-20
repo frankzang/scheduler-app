@@ -12,9 +12,11 @@ import {
   RadioGroup,
   Text,
   Button,
+  Box,
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { FaUserDoctor } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
 
 type AvailableTime = {
   professionalName: string;
@@ -46,6 +48,19 @@ const availableTimes: AvailableTime[] = [
 ];
 
 export const TimePage = () => {
+  const navigate = useNavigate();
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const time = formData.get('time');
+    const professionalId = formData.get('professionalId');
+
+    console.log(professionalId, time);
+
+    navigate('/login');
+  };
+
   return (
     <Container>
       <Helmet>
@@ -79,24 +94,44 @@ export const TimePage = () => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              <RadioGroup
-                aria-label={time.professionalName}
-                tabIndex={-1}
-                mb="4"
+              <Box
+                as="form"
+                data-professional={time.professionalId}
+                onSubmit={onSubmit}
               >
-                {time.times.map((option, index) => (
-                  <Radio key={index} value={option} autoFocus mr="8" mb="4">
-                    {option}
-                  </Radio>
-                ))}
-              </RadioGroup>
-              <Button
-                colorScheme="blue"
-                width="100%"
-                rightIcon={<ArrowForwardIcon />}
-              >
-                Agendar
-              </Button>
+                <input
+                  type="hidden"
+                  name="professionalId"
+                  value={time.professionalId}
+                />
+                <RadioGroup
+                  aria-label={time.professionalName}
+                  tabIndex={-1}
+                  mb="4"
+                >
+                  {time.times.map((option, index) => (
+                    <Radio
+                      key={index}
+                      value={option}
+                      autoFocus
+                      mr="8"
+                      mb="4"
+                      name="time"
+                      isRequired
+                    >
+                      {option}
+                    </Radio>
+                  ))}
+                </RadioGroup>
+                <Button
+                  type="submit"
+                  colorScheme="blue"
+                  width="100%"
+                  rightIcon={<ArrowForwardIcon />}
+                >
+                  Agendar
+                </Button>
+              </Box>
             </AccordionPanel>
           </AccordionItem>
         ))}
