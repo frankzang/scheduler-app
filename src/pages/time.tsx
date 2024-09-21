@@ -125,7 +125,11 @@ export const TimePage = () => {
                   aria-label={time.professionalName}
                   tabIndex={-1}
                   mb="4"
-                  defaultValue={cache.current.time}
+                  defaultValue={
+                    time.professionalId === cache.current.professionalId
+                      ? cache.current.time
+                      : ''
+                  }
                 >
                   {time.times.map((option, index) => {
                     return (
