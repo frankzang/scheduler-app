@@ -17,6 +17,13 @@ import {
 import { Helmet } from 'react-helmet';
 import { FaUserDoctor } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
+import { useScheduleCache } from '../context/schedule-cache';
+import { z } from 'zod';
+
+const TimeData = z.object({
+  professionalId: z.string(),
+  time: z.string(),
+});
 
 type AvailableTime = {
   professionalName: string;
@@ -48,17 +55,27 @@ const availableTimes: AvailableTime[] = [
 ];
 
 export const TimePage = () => {
+  const { cache, setCacheEntry } = useScheduleCache();
   const navigate = useNavigate();
+  const defaultOpenedPanelIndex = availableTimes.findIndex(
+    (time) => time.professionalId === cache.current.professionalId
+  );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const time = formData.get('time');
-    const professionalId = formData.get('professionalId');
+    const formValues = Object.fromEntries(formData.entries());
+    const parsedTimeData = TimeData.safeParse(formValues);
 
-    console.log(professionalId, time);
+    if (parsedTimeData.success) {
+      setCacheEntry({
+        professionalId: parsedTimeData.data.professionalId,
+        time: parsedTimeData.data.time,
+      });
 
-    navigate('/login');
+      navigate('/confirmation');
+      // navigate('/login');
+    }
   };
 
   return (
@@ -72,7 +89,7 @@ export const TimePage = () => {
       <Text textAlign="center" pb="12">
         Selecione o melhor horário para sua consulta
       </Text>
-      <Accordion>
+      <Accordion defaultIndex={defaultOpenedPanelIndex}>
         {availableTimes.map((time) => (
           <AccordionItem
             key={time.professionalId}
@@ -108,20 +125,23 @@ export const TimePage = () => {
                   aria-label={time.professionalName}
                   tabIndex={-1}
                   mb="4"
+                  defaultValue={cache.current.time}
                 >
-                  {time.times.map((option, index) => (
-                    <Radio
-                      key={index}
-                      value={option}
-                      autoFocus
-                      mr="8"
-                      mb="4"
-                      name="time"
-                      isRequired
-                    >
-                      {option}
-                    </Radio>
-                  ))}
+                  {time.times.map((option, index) => {
+                    return (
+                      <Radio
+                        key={index}
+                        value={option}
+                        autoFocus
+                        mr="8"
+                        mb="4"
+                        name="time"
+                        isRequired
+                      >
+                        {option}
+                      </Radio>
+                    );
+                  })}
                 </RadioGroup>
                 <Button
                   type="submit"
