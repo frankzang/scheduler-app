@@ -55,7 +55,7 @@ export const Calendar = ({ onChange, date, isDisabled }: CalendarProps) => {
       <Box
         as={ReactCalendar}
         aria-label="Data da consulta"
-        defaultValue={fromDate(date ?? new Date(), getLocalTimeZone())}
+        defaultValue={date ? fromDate(date, getLocalTimeZone()) : undefined}
         minValue={today(getLocalTimeZone())}
         isDateUnavailable={isDateUnavailable}
         isDisabled={isDisabled}
