@@ -11,12 +11,14 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
-import { Link as RRDLink } from 'react-router-dom';
+import { Link as RRDLink, useNavigate } from 'react-router-dom';
 import { UserWithPassword } from '../model/user';
 
 const LoginUser = UserWithPassword.pick({ email: true, password: true });
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -25,6 +27,8 @@ export const LoginPage = () => {
 
     if (parsedUser.success) {
       console.log(parsedUser.data);
+
+      navigate('/confirmation');
     }
   };
 
@@ -44,6 +48,7 @@ export const LoginPage = () => {
       >
         <VStack
           as="form"
+          noValidate
           onSubmit={
             onSubmit as unknown as React.FormEventHandler<HTMLDivElement>
           }

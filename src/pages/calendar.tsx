@@ -6,11 +6,11 @@ import { useScheduleCache } from '../context/schedule-cache';
 
 export const CalendarPage = () => {
   const navigate = useNavigate();
-  const { date, setDate } = useScheduleCache();
+  const { cache, setCacheEntry } = useScheduleCache();
 
   const onDateChange = async (date: Date) => {
+    setCacheEntry({ date });
     navigate('/horarios');
-    setDate(date);
   };
 
   return (
@@ -24,7 +24,7 @@ export const CalendarPage = () => {
       <Text textAlign="center" pb="12">
         Selecione a melhor data para sua consulta
       </Text>
-      <Calendar date={date} onChange={onDateChange} />
+      <Calendar date={cache.current.date} onChange={onDateChange} />
     </Container>
   );
 };

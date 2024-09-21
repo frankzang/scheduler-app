@@ -1,9 +1,18 @@
 import { createContext, useContext } from 'react';
 
-export type ScheduleCache = {
-  date: Date;
-  setDate: (date: Date) => void;
+export type ScheduleCacheData = {
+  date?: Date;
+  time?: string;
+  professionalId?: string;
 };
+
+export type ScheduleCacheMethods = {
+  setCacheEntry: (data: Partial<ScheduleCacheData>) => void;
+};
+
+export type ScheduleCache = {
+  cache: React.MutableRefObject<ScheduleCacheData>;
+} & ScheduleCacheMethods;
 
 const ScheduleCacheContext = createContext<ScheduleCache | undefined>(
   undefined
