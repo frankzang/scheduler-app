@@ -61,7 +61,7 @@ export const Calendar = ({ onChange, date, isDisabled }: CalendarProps) => {
         isDisabled={isDisabled}
         onChange={(evt: DateValue) => onChange(evt.toDate(getLocalTimeZone()))}
         width="100%"
-        maxW="400px"
+        maxW="450px"
         margin="auto"
         pb="8"
         sx={{
@@ -72,31 +72,12 @@ export const Calendar = ({ onChange, date, isDisabled }: CalendarProps) => {
             aspectRatio: '1/1',
             borderRadius: '8',
             position: 'relative',
+            fontWeight: 'bold',
           },
 
-          '.react-aria-CalendarCell:before': {
-            content: '""',
-            display: 'block',
-            width: '2',
-            aspectRatio: '1/1',
-            position: 'absolute',
-            top: 2,
-            right: 2,
-            borderRadius: '100%',
-            bgColor: 'green.400',
-          },
-
-          '[data-unavailable]:before': {
-            bgColor: 'red.400',
-          },
-
-          '[data-disabled]': {
+          '[data-unavailable], [data-disabled]': {
             color: 'grey',
-          },
-
-          '[data-disabled]:before': {
-            bgColor: 'transparent',
-            color: 'grey',
+            fontWeight: 'normal',
           },
 
           '[data-outside-month]': {
@@ -162,28 +143,6 @@ export const Calendar = ({ onChange, date, isDisabled }: CalendarProps) => {
             return <CalendarCell date={date} />;
           }}
         </Box>
-        <HStack mt="4">
-          <Flex alignItems="center" mr="8">
-            <Box
-              width={2}
-              aspectRatio="1/1"
-              bgColor="green.400"
-              borderRadius="100%"
-              mr="2"
-            />
-            <Text id={availableId}>Disponível</Text>
-          </Flex>
-          <Flex alignItems="center">
-            <Box
-              width={2}
-              aspectRatio="1/1"
-              bgColor="red.400"
-              borderRadius="100%"
-              mr="2"
-            />
-            <Text id={unavailableId}>Indisponível</Text>
-          </Flex>
-        </HStack>
       </Box>
     </Box>
   );

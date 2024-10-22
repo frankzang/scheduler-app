@@ -1,7 +1,7 @@
 import { Container, Heading, Text } from '@chakra-ui/react';
 import { Calendar } from '../components/calendar/calendar';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useScheduleCache } from '../context/schedule-cache';
 
 export const CalendarPage = () => {
@@ -15,6 +15,7 @@ export const CalendarPage = () => {
 
   return (
     <Container>
+      <Outlet></Outlet>
       <Helmet>
         <title>Agendar consulta</title>
       </Helmet>
